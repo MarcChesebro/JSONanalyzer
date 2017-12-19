@@ -1,6 +1,10 @@
 import sys
 import json
 
+def sortFunc(tup):
+    key, dic = tup
+    return dic['total_coal']
+
 if __name__ == "__main__":
 
     with open(sys.argv[1]) as json_file:
@@ -16,5 +20,7 @@ if __name__ == "__main__":
         else:
             elves[inf['name']] = {'name' : inf['name'], 'infractions' : 1, 'total_coal' : inf['severity']}
 
-    for elf in elves:
-        print("Name: {}\t Infractions: {}\t Total Coal: {}".format(elves[elf]['name'], elves[elf]['infractions'], elves[elf]['total_coal']))
+    sorted_data = sorted(elves.items(), key = sortFunc, reverse=True)
+
+    for elf in sorted_data:
+        print("Name: {}\t Infractions: {}\t Total Coal: {}".format(elf[0], elf[1]['infractions'], elf[1]['total_coal']))
